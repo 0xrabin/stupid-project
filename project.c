@@ -137,11 +137,13 @@ banner();
 
         printf("\n\n\n");
         fp = fopen("prisoners.txt","r");
+        //printf("ID Prisoner_Name Cell_no Age Crime Release Day\n");
         while((road=fgetc(fp))!=EOF)
         {
             printf("%c",road);
         }
         printf("\n");
+        fclose(fp);
 
 
 }
@@ -191,7 +193,19 @@ printf("Hello");
 }
 
 void export()
-{
+{       char road;
+        fp = fopen("prisoners.txt","r");
+        fpcsv = fopen("prisoners.csv","w+");
+        while((road=fgetc(fp))!=EOF)
+        {   if(road==' ')
+            fputc(',',fpcsv);
+            else
+            fputc(road,fpcsv);
+        }
+        printf("\n");
+        fclose(fp);
+        fclose(fpcsv);
+
 //fpcsv = fopen("prisoners.csv","a+");
 //fclose(fpcsv);
 //fputs("PrisonerID Prisoner_Names Prisoner_Cell_no Age Crime Release Day",fp);
