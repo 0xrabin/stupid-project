@@ -31,6 +31,7 @@ void Padd();
 void Pread ();
 void Psearch();
 void Pdelete();
+void Pedit();
 void banner();
 void export();
 
@@ -39,8 +40,9 @@ FILE *fpcsv;
 void main()
 {   
     int choice;
+    system("cls");
     banner();
-    printf("\nEnter \n[1] to update data \n[2] to view data \n[3] to search for a record \n[4] to delete a record\n[5] to export entire data in csv format\n[6] exit\n");
+    printf("\nEnter \n[1] to add data \n[2] to view entire data \n[3] to search for a record \n[4] to edit/modify a record\n[5] to delete a record\n[6] to export entire data in csv format\n[7] exit\n");
     printf(">>");
     scanf("%d",&choice);
     switch(choice)
@@ -60,13 +62,26 @@ void main()
         case 4:
         Pdelete();
         break;
+
+        case 5:
+        Pedit();
+        break;
+
+        case 6:
+        export();
+        break;
+
+        case 7:
+        exit(0);
+
     }
 }
 
 void Padd()
 {
+char x;
 fp = fopen("prisoners.txt","a+");
-fpcsv = fopen("prisoners.csv","a+");
+
 
 printf("Enter prisoner id:");
 scanf("%d",&pri.PrisonerId);
@@ -91,34 +106,42 @@ printf("Enter release day:");
 scanf("%d",&pri.release.day);
 fflush(stdin);
 
-fprintf(fp,"PrisonerID:%d | Prisoner Name:%s %s | Prisoner Cell no:%s | Age:%d | Crime:%s | Release Day =%d-%s-%d \n",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
+fprintf(fp,"%d %s %s %s %d %s %d-%s-%d\n",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
 
-fprintf(fpcsv,"S.N,Name,Cell,Age,Crime,Release Date\n");
-fprintf(fpcsv,"%d,%s %s,%s,%d,%s,%d-%s-%d\n",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
-fclose(fpcsv);
 
 fclose(fp);
+printf("Do you want to add another data?\nEnter Y or N\n>>");
+scanf("%c",&x);
+if(x=='Y')
+{
+    Padd();
+}
+else if(x=='N')
+{
+    system("cls");
+    main();
+}
+else
+{
+    printf("\nInvalid option");
+}
+
 
 }
 
 void Pread()
 {
-int choice;
+char road;
 system("cls");
 banner();
-printf("\nEnter \n[1] to view entire data \n[2] to view data of certain prisoner\n");
-    printf(">>");
-    scanf("%d",&choice);
-    switch(choice)
-    {
-        case 1:
-        printf("1");
-        break;
 
-        case 2:
-        printf("2");
-        break;
-    }
+        printf("\n\n\n");
+        fp = fopen("prisoners.txt","r");
+        while((road=fgetc(fp))!=EOF)
+        {
+            printf("%c",road);
+        }
+        printf("\n");
 
 
 }
@@ -126,10 +149,38 @@ printf("\nEnter \n[1] to view entire data \n[2] to view data of certain prisoner
 
 void Psearch()
 {
+int choice;
+system("cls");
+banner();
+printf("\nEnter \n[1] to search by id \n[2] to search by name\n[3] to search by crime\n[4] to return to menu\n");
+    printf(">>");
+    scanf("%d",&choice);
+    switch(choice)
+    {
+        case 1:
+        printf("2");
+        break;
+
+        case 2:
+        printf("2");
+        break;
+
+        case 3:
+        printf("3");
+        break;
+
+        case 4:
+        main();
+        break;
+    }
+
+}
+
+void Pedit()
+{
 system("cls");
 banner();
 printf("Hello");
-
 }
 
 void Pdelete()
@@ -141,6 +192,11 @@ printf("Hello");
 
 void export()
 {
+//fpcsv = fopen("prisoners.csv","a+");
+//fclose(fpcsv);
+//fputs("PrisonerID Prisoner_Names Prisoner_Cell_no Age Crime Release Day",fp);
+//fprintf(fpcsv,"S.N,Name,Cell,Age,Crime,Release Date\n");
+//fprintf(fpcsv,"%d,%s %s,%s,%d,%s,%d-%s-%d\n",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
 
 }
 
