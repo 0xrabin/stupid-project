@@ -1,5 +1,5 @@
-Make search function work
-Make delete function work
+Make search function work(Either structure or fread)
+Make delete function work(Either structure or fread)
 Add Minor changes in function to view banner and menu
-Simple export to csv
+Simple export to csv(DONE)
 
