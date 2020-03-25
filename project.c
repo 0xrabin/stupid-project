@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct prisoner
 {
@@ -29,13 +30,14 @@ struct prisoner
 
 void Padd();
 void Pread ();
-void Psearch();
-void Pdelete();
-void Pedit();
+void Psearch();//left
+void Pdelete();//left
+void Pedit();//left
 void banner();
 void export();
 
 FILE *fp;
+FILE *fpdel;
 FILE *fpcsv;
 void main()
 {   
@@ -60,11 +62,11 @@ void main()
         break;
 
         case 4:
-        Pdelete();
+        Pedit();
         break;
 
         case 5:
-        Pedit();
+        Pdelete();
         break;
 
         case 6:
@@ -157,18 +159,60 @@ banner();
 printf("\nEnter \n[1] to search by id \n[2] to search by name\n[3] to search by crime\n[4] to return to menu\n");
     printf(">>");
     scanf("%d",&choice);
+    int editid;
+    char fname[20];
+    char cname[20];
+    int f;
+    int cn;
     switch(choice)
     {
         case 1:
-        printf("2");
+        fp = fopen("prisoners.txt","r");
+        printf("Enter Prisoner ID:");
+        scanf("%d",&editid);
+        while((fscanf(fp,"%d%s%s%s%d%s%d%s%d",&pri.PrisonerId,&pri.Prisoner_FName,&pri.Prisoner_LName,&pri.Prisoner_Cell,&pri.age,&pri.crime,&pri.release.year,&pri.release.month,&pri.release.day)!=EOF))
+        {
+            if(pri.PrisonerId == editid)
+            {  
+                printf("%d %s %s %s %d %s %d %s %d",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
+            }
+        }
+        fclose(fp);
         break;
 
         case 2:
-        printf("2");
+        fp = fopen("prisoners.txt","r");
+        printf("Enter Prisoner Name:\n");
+        printf("Enter First Name:");
+        scanf("%s",fname);
+        // printf("Enter Last Name:");
+        // scanf("%f",lname);
+        
+        while((fscanf(fp,"%d%s%s%s%d%s%d%s%d",&pri.PrisonerId,&pri.Prisoner_FName,&pri.Prisoner_LName,&pri.Prisoner_Cell,&pri.age,&pri.crime,&pri.release.year,&pri.release.month,&pri.release.day)!=EOF))
+        {   f = strcmp(pri.Prisoner_FName,fname);
+            //l = strcmp(pri.Prisoner_LName,lname);
+            if(f==0)
+            { 
+                printf("%d %s %s %s %d %s %d %s %d",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
+            }
+        }
+        fclose(fp);
         break;
 
         case 3:
-        printf("3");
+        fp = fopen("prisoners.txt","r");
+        printf("Enter Crime:");
+        scanf("%s",cname);
+        
+        while((fscanf(fp,"%d%s%s%s%d%s%d%s%d",&pri.PrisonerId,&pri.Prisoner_FName,&pri.Prisoner_LName,&pri.Prisoner_Cell,&pri.age,&pri.crime,&pri.release.year,&pri.release.month,&pri.release.day)!=EOF))
+        {   cn = strcmp(pri.crime,cname);
+            
+            if(cn==0)
+            { 
+                printf("%d %s %s %s %d %s %d %s %d",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
+            }
+        }
+        fclose(fp);
         break;
 
         case 4:
@@ -187,9 +231,25 @@ printf("Hello");
 
 void Pdelete()
 {
-system("cls");
-banner();
-printf("Hello");
+
+int delid;
+fp = fopen("prisoners.txt","r");
+fpdel = fopen("prisonersdel.txt","w");
+printf("Enter id of prisoner you want to delete:");
+scanf("%d",&delid);
+
+while((fscanf(fp,"%d%s%s%s%d%s%d%s%d",&pri.PrisonerId,&pri.Prisoner_FName,&pri.Prisoner_LName,&pri.Prisoner_Cell,&pri.age,&pri.crime,&pri.release.year,&pri.release.month,&pri.release.day)!=EOF))
+{
+    if(pri.PrisonerId != delid)
+    {fprintf(fpdel,"%d %s %s %s %d %s %d %s %d\n",pri.PrisonerId,pri.Prisoner_FName,pri.Prisoner_LName,pri.Prisoner_Cell,pri.age,pri.crime,pri.release.year,pri.release.month,pri.release.day);
+    }
+}
+printf("Record of prisoner %d were erased",delid);
+fclose(fp);
+fclose(fpdel);
+remove("prisoners.txt");
+rename("prisonersdel.txt","prisoners.txt");
+
 }
 
 void export()
